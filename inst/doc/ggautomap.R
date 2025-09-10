@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -158,4 +158,26 @@ covid_cases_nsw %>%
   )) +
   labs(x = NULL, y = NULL) +
   theme_void()
+
+## ----eval=FALSE---------------------------------------------------------------
+# sf <- sf::read_sf("map_data.shp")
+
+## ----eval=FALSE---------------------------------------------------------------
+# # subset to only include Victorian postcodes only
+# sf_vic <-
+#   sf::read_sf(map_files) |>
+#   mutate(postcode = as.integer(POA_CODE21)) |>
+#   filter(POA_CODE21 >= 3000 & POA_CODE21 <= 3999)
+
+## ----eval=FALSE---------------------------------------------------------------
+# cartographer::register_map(
+#   "sf.vic", # the map name
+#   data = sf_vic, # this is the object we subsetted above
+#   feature_column = "postcode", # data column to include
+# )
+
+## ----eval=FALSE---------------------------------------------------------------
+# ggplot() +
+#   geom_boundaries(feature_type = "sf.vic") +
+#   theme_void()
 
