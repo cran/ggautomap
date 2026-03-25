@@ -5,13 +5,13 @@
 \title{Map feature boundaries}
 \usage{
 geom_boundaries(
-  mapping = ggplot2::aes(),
+  mapping = aes(),
   data = NULL,
   stat = "sf_inset",
   position = "identity",
   ...,
   feature_type = NULL,
-  inset = NA,
+  inset = waiver(),
   map_base = "normal",
   map_inset = "auto",
   na.rm = FALSE,
@@ -30,7 +30,7 @@ registered types. If \code{NA}, the type is guessed based on the values in
 \code{feature_names}.}
 
 \item{inset}{Inset configuration; see \code{\link[ggmapinset:configure_inset]{configure_inset()}}.
-If \code{NA} (the default), this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
+If \code{waiver()}, the default, this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
 
 \item{map_base}{Controls the layer with the base map. Possible values are
 \code{"normal"} to create a layer as though the inset were not specified,
@@ -56,7 +56,11 @@ possibility to override its aesthetics.
 }
 \examples{
 library(ggplot2)
+library(nswgeo)
 
 ggplot() +
-  geom_boundaries(feature_type = "sf.nc")
+  geom_boundaries(
+    feature_type = "nswgeo.lhd",
+    outline.aes = list(colour = "red", linewidth = 0.6)
+  )
 }

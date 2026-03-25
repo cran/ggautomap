@@ -19,33 +19,38 @@
 #'
 #' @examples
 #' library(ggplot2)
+#' library(dplyr, warn.conflicts = FALSE)
 #'
 #' points <- data.frame(
-#'   x = c(rep(1, 10), 1:3),
-#'   y = c(rep(2, 10), 3:5),
-#'   s = 0.05
+#'   x = c(rep(1, 10), 2, 2, 3),
+#'   y = c(rep(1, 10), 2, 2, 3)
 #' )
 #' ggplot(points, aes(x, y)) +
 #'   geom_point(size = 3, colour = "red") +
-#'   geom_point(position = position_circle_repel(0.05), size = 3, alpha = 0.5)
+#'   geom_point(position = position_circle_repel(0.05), size = 3, alpha = 0.5) +
+#'   coord_equal()
 #'
 #' cartographer::nc_type_example_2 |>
-#'   dplyr::filter(!county %in% c("HENDERSON", "GASTON", "LINCOLN")) |>
+#'   filter(!county %in% c("HENDERSON", "GASTON", "LINCOLN")) |>
 #'   ggplot(aes(location = county)) +
 #'   geom_boundaries(feature_type = "sf.nc") +
-#'   geom_centroids(aes(colour = type), position = position_circle_repel_sf(scale = 4), size = 0.2) +
+#'   geom_centroids(
+#'     aes(colour = type),
+#'     position = position_circle_repel_sf(scale = 4),
+#'     size = 0.2
+#'   ) +
 #'   coord_automap(feature_type = "sf.nc")
 #
 # FIXME: points <- data.frame(county = counties, s = ifelse(counties == nc$NAME[[1]], 5, 10))
 position_circle_repel <- function(scale = 1 / 4) {
-  ggplot2::ggproto(NULL, PositionCircleRepel, scale = scale)
+  ggproto(NULL, PositionCircleRepel, scale = scale)
 }
 
 #' @rdname position_circle_repel
 #'
 #' @export
 position_circle_repel_sf <- function(scale = 10) {
-  ggplot2::ggproto(NULL, PositionCircleRepelSf, scale = scale)
+  ggproto(NULL, PositionCircleRepelSf, scale = scale)
 }
 
 #' @rdname position_circle_repel
@@ -55,7 +60,9 @@ position_circle_repel_sf <- function(scale = 10) {
 #' @importFrom  packcircles circleRepelLayout
 #' @importFrom tidyr unnest_wider
 #' @export
-PositionCircleRepel <- ggplot2::ggproto("PositionCircleRepel", ggplot2::Position,
+PositionCircleRepel <- ggproto(
+  "PositionCircleRepel",
+  ggplot2::Position,
   required_aes = c("x", "y"),
   scale = 1 / 4,
 
@@ -74,7 +81,9 @@ PositionCircleRepel <- ggplot2::ggproto("PositionCircleRepel", ggplot2::Position
 #' @format NULL
 #'
 #' @export
-PositionCircleRepelSf <- ggplot2::ggproto("PositionCircleRepelSf", PositionCircleRepel,
+PositionCircleRepelSf <- ggproto(
+  "PositionCircleRepelSf",
+  PositionCircleRepel,
   required_aes = c("geometry", "x", "y"),
   scale = 10,
 
@@ -94,7 +103,8 @@ PositionCircleRepelSf <- ggplot2::ggproto("PositionCircleRepelSf", PositionCircl
     coordinates <- sf::st_coordinates(geometry)
 
     tmp <- circle_repel(data.frame(
-      x = coordinates[, "X"], y = coordinates[, "Y"],
+      x = coordinates[, "X"],
+      y = coordinates[, "Y"],
       scale = scale
     ))
 

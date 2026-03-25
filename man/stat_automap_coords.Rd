@@ -12,7 +12,7 @@ stat_automap_coords(
   ...,
   feature_type = NA,
   na.rm = TRUE,
-  inset = NA,
+  inset = waiver(),
   fun.geometry = NULL,
   show.legend = NA,
   inherit.aes = TRUE
@@ -26,7 +26,7 @@ registered types. If \code{NA}, the type is guessed based on the values in
 \code{feature_names}.}
 
 \item{inset}{Inset configuration; see \code{\link[ggmapinset:configure_inset]{configure_inset()}}.
-If \code{NA} (the default), this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
+If \code{waiver()}, the default, this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
 }
 \value{
 A plot layer
@@ -64,4 +64,16 @@ ggplot(events, aes(location = county)) +
 }
 \seealso{
 \code{\link[ggmapinset:stat_sf_coordinates_inset]{ggmapinset::stat_sf_coordinates_inset()}}
+}
+\section{Aesthetics}{
+
+\code{stat_automap_coords()} understands the following aesthetics. Required aesthetics are displayed in bold and defaults are displayed for optional aesthetics:
+\tabular{rll}{
+ • \tab \strong{\code{location}} \tab   \cr
+ • \tab \code{\link[ggplot2:aes_group_order]{group}} \tab → inferred \cr
+ • \tab \code{\link[ggplot2:aes_position]{x}} \tab → \code{after_stat(x)} \cr
+ • \tab \code{\link[ggplot2:aes_position]{y}} \tab → \code{after_stat(y)} \cr
+}
+
+Learn more about setting these aesthetics in \code{vignette("ggplot2-specs")}.
 }

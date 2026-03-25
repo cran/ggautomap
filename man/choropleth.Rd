@@ -8,13 +8,13 @@
 \title{Associate regions with counts}
 \usage{
 geom_choropleth(
-  mapping = ggplot2::aes(),
+  mapping = aes(),
   data = NULL,
   stat = "choropleth",
   position = "identity",
   ...,
   feature_type = NA,
-  inset = NA,
+  inset = waiver(),
   map_base = "normal",
   map_inset = "auto",
   na.rm = TRUE,
@@ -42,7 +42,7 @@ registered types. If \code{NA}, the type is guessed based on the values in
 \code{feature_names}.}
 
 \item{inset}{Inset configuration; see \code{\link[ggmapinset:configure_inset]{configure_inset()}}.
-If \code{NA} (the default), this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
+If \code{waiver()}, the default, this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
 
 \item{map_base}{Controls the layer with the base map. Possible values are
 \code{"normal"} to create a layer as though the inset were not specified,
@@ -68,12 +68,6 @@ with \code{stat = "automap"} instead.
 Note that choropleths have a tendency to be misleading by emphasising
 geographically larger areas.
 }
-\section{Aesthetics}{
-
-The \code{location} aesthetic is required.
-\code{geom_choropleth()} understands the same aesthetics as \code{\link[ggplot2:ggsf]{ggplot2::geom_sf()}}.
-}
-
 \section{Computed variables}{
 
 \describe{
@@ -94,3 +88,14 @@ cartographer::nc_type_example_2 |>
   coord_automap(feature_type = "sf.nc")
 }
 \keyword{datasets}
+\section{Aesthetics}{
+
+\code{stat_choropleth()} understands the following aesthetics. Required aesthetics are displayed in bold and defaults are displayed for optional aesthetics:
+\tabular{rll}{
+ • \tab \strong{\code{location}} \tab   \cr
+ • \tab \code{\link[ggplot2:aes_colour_fill_alpha]{fill}} \tab → \code{ggplot2::after_stat(count)} \cr
+ • \tab \code{\link[ggplot2:aes_group_order]{group}} \tab → inferred \cr
+}
+
+Learn more about setting these aesthetics in \code{vignette("ggplot2-specs")}.
+}

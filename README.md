@@ -8,6 +8,8 @@
 [![ggautomap status
 badge](https://cidm-ph.r-universe.dev/badges/ggautomap)](https://cidm-ph.r-universe.dev)
 [![R-CMD-check](https://github.com/cidm-ph/ggautomap/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cidm-ph/ggautomap/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ggautomap)](https://CRAN.R-project.org/package=ggautomap)
 <!-- badges: end -->
 
 `ggautomap` helps when you have a spreadsheet/table of data that
@@ -97,7 +99,7 @@ ggplot(nc_type_example_2, aes(location = county)) +
   coord_automap(feature_type = "sf.nc")
 ```
 
-<img src="man/figures/README-example-basic-1.png" width="100%" />
+<img src="man/figures/README-example-basic-1.png" alt="" width="100%" />
 
 ``` r
 ggplot(nc_type_example_2, aes(location = county)) +
@@ -107,4 +109,4 @@ ggplot(nc_type_example_2, aes(location = county)) +
   coord_automap(feature_type = "sf.nc")
 ```
 
-<img src="man/figures/README-example-basic-2.png" width="100%" />
+<img src="man/figures/README-example-basic-2.png" alt="" width="100%" />

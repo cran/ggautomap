@@ -5,14 +5,14 @@
 \title{Geographic centroid of locations}
 \usage{
 geom_centroids(
-  mapping = ggplot2::aes(),
+  mapping = aes(),
   data = NULL,
   stat = "automap_coords",
   position = "circle_repel_sf",
   ...,
   fun.geometry = NULL,
   feature_type = NA,
-  inset = NA,
+  inset = waiver(),
   map_base = "clip",
   map_inset = "auto",
   na.rm = TRUE,
@@ -28,7 +28,7 @@ registered types. If \code{NA}, the type is guessed based on the values in
 \code{feature_names}.}
 
 \item{inset}{Inset configuration; see \code{\link[ggmapinset:configure_inset]{configure_inset()}}.
-If \code{NA} (the default), this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
+If \code{waiver()}, the default, this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
 
 \item{map_base}{Controls the layer with the base map. Possible values are
 \code{"normal"} to create a layer as though the inset were not specified,
@@ -63,6 +63,10 @@ cartographer::nc_type_example_2 |>
   head(n = 100) |>
   ggplot(aes(location = county)) +
   geom_boundaries(feature_type = "sf.nc") +
-  geom_centroids(aes(colour = type), position = position_circle_repel_sf(scale = 6), size = 0.5) +
+  geom_centroids(
+    aes(colour = type),
+    position = position_circle_repel_sf(scale = 6),
+    size = 0.5
+  ) +
   coord_automap(feature_type = "sf.nc")
 }

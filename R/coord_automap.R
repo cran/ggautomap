@@ -7,7 +7,7 @@
 #'
 #' @inheritParams cartographer::resolve_feature_type
 #' @param inset Inset configuration; see [configure_inset()].
-#' @param ... Arguments passed to [ggmapinset::coord_sf_inset()]
+#' @param ... Arguments passed to [`coord_sf_inset()`][ggmapinset::coord_sf_inset]
 #'
 #' @returns A ggplot coordinate
 #' @export
@@ -21,9 +21,7 @@
 #'   coord_automap(feature_type = "sf.nc")
 coord_automap <- function(feature_type = NA, inset = NULL, ...) {
   parent <- ggmapinset::coord_sf_inset(inset, ...)
-  ggproto("CoordAutomap", parent,
-    feature_type = feature_type
-  )
+  ggproto("CoordAutomap", parent, feature_type = feature_type)
 }
 
 get_feature_type <- function(feature_type, coord, feature_names) {

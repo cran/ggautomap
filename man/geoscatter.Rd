@@ -8,14 +8,15 @@
 \title{Place points randomly or in a grid within locations}
 \usage{
 geom_geoscatter(
-  mapping = ggplot2::aes(),
+  mapping = aes(),
   data = NULL,
   stat = "geoscatter",
   position = "identity",
   ...,
   feature_type = NA,
   sample_type = "random",
-  inset = NA,
+  seed = 12345,
+  inset = waiver(),
   map_base = "clip",
   map_inset = "auto",
   na.rm = TRUE,
@@ -31,6 +32,7 @@ stat_geoscatter(
   ...,
   feature_type = NA,
   sample_type = "random",
+  seed = 12345,
   show.legend = NA,
   inherit.aes = TRUE
 )
@@ -47,8 +49,11 @@ registered types. If \code{NA}, the type is guessed based on the values in
 \code{"regular"} and \code{"hexagonal"} will evenly space points, leaving
 a small margin close to the boundaries.}
 
+\item{seed}{random seed, used when \code{sample_type} is \code{"random"}.
+When \code{NA}, the global seed, if any, is used instead of a fixed seed.}
+
 \item{inset}{Inset configuration; see \code{\link[ggmapinset:configure_inset]{configure_inset()}}.
-If \code{NA} (the default), this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
+If \code{waiver()}, the default, this is inherited from the coord (see \code{\link[ggmapinset:coord_sf_inset]{coord_sf_inset()}}).}
 
 \item{map_base}{Controls the layer with the base map. Possible values are
 \code{"normal"} to create a layer as though the inset were not specified,
@@ -89,7 +94,7 @@ library(ggplot2)
 cartographer::nc_type_example_2 |>
   ggplot(aes(location = county)) +
   geom_boundaries(feature_type = "sf.nc") +
-  geom_geoscatter(aes(colour = type), size = 0.5) +
+  geom_geoscatter(aes(colour = type), size = 0.5, seed = 123) +
   coord_automap(feature_type = "sf.nc")
 }
 \keyword{datasets}

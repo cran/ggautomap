@@ -11,9 +11,7 @@
 #'
 #' @rdname choropleth
 #'
-#' @section Aesthetics:
-#' The \code{location} aesthetic is required.
-#' \code{geom_choropleth()} understands the same aesthetics as [ggplot2::geom_sf()].
+#' @aesthetics StatChoropleth
 #'
 #' @inheritParams stat_choropleth
 #' @inheritParams ggmapinset::geom_sf_inset
@@ -30,16 +28,20 @@
 #'   geom_boundaries(feature_type = "sf.nc") +
 #'   scale_fill_steps(low = "#e6f9ff", high = "#00394d") +
 #'   coord_automap(feature_type = "sf.nc")
-geom_choropleth <- function(mapping = ggplot2::aes(), data = NULL,
-                            stat = "choropleth", position = "identity",
-                            ...,
-                            feature_type = NA,
-                            inset = NA,
-                            map_base = "normal",
-                            map_inset = "auto",
-                            na.rm = TRUE,
-                            show.legend = NA,
-                            inherit.aes = TRUE) {
+geom_choropleth <- function(
+  mapping = aes(),
+  data = NULL,
+  stat = "choropleth",
+  position = "identity",
+  ...,
+  feature_type = NA,
+  inset = waiver(),
+  map_base = "normal",
+  map_inset = "auto",
+  na.rm = TRUE,
+  show.legend = NA,
+  inherit.aes = TRUE
+) {
   params <- rlang::list2(
     feature_type = feature_type,
     na.rm = na.rm,
@@ -49,11 +51,17 @@ geom_choropleth <- function(mapping = ggplot2::aes(), data = NULL,
     params$colour <- NA
   }
 
-  ggmapinset::build_sf_inset_layers(
-    data = data, mapping = mapping,
-    stat = stat, position = position,
-    show.legend = show.legend, inherit.aes = inherit.aes, params = params,
-    inset = inset, map_base = map_base, map_inset = map_inset
+  build_sf_inset_layers(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = params,
+    inset = inset,
+    map_base = map_base,
+    map_inset = map_inset
   )
 }
 
@@ -70,13 +78,17 @@ geom_choropleth <- function(mapping = ggplot2::aes(), data = NULL,
 #' @inheritParams cartographer::resolve_feature_type
 #'
 #' @export
-stat_choropleth <- function(mapping = NULL, data = NULL,
-                            geom = "sf", position = "identity",
-                            ...,
-                            feature_type = NA,
-                            na.rm = TRUE,
-                            show.legend = NA,
-                            inherit.aes = TRUE) {
+stat_choropleth <- function(
+  mapping = NULL,
+  data = NULL,
+  geom = "sf",
+  position = "identity",
+  ...,
+  feature_type = NA,
+  na.rm = TRUE,
+  show.legend = NA,
+  inherit.aes = TRUE
+) {
   ggplot2::layer_sf(
     data = data,
     mapping = mapping,
@@ -99,8 +111,10 @@ stat_choropleth <- function(mapping = NULL, data = NULL,
 #'
 #' @importFrom rlang .data
 #' @export
-StatChoropleth <- ggplot2::ggproto("StatChoropleth", StatAutomap,
-  default_aes = ggplot2::aes(fill = ggplot2::after_stat(count)),
+StatChoropleth <- ggproto(
+  "StatChoropleth",
+  StatAutomap,
+  default_aes = aes(fill = ggplot2::after_stat(count)),
 
   compute_panel = function(data, scales, coord, feature_type = NA) {
     counts <- dplyr::count(data, location = .data$location, name = "count")
